@@ -4,7 +4,7 @@ class Produto(models.Model):
     destaque = models.BooleanField(default=True)
     promocao = models.BooleanField(default=True)
     msgPromocao = models.CharField(null=True, max_length=100,blank=True)
-    preco = models.DecimalField(max_digits=8, decimal_places=2)
+    preco = models.DecimalField(max_digits=20, decimal_places=2)
     categoria = models.ForeignKey(Categoria, null=True,
     related_name='categoria', on_delete=models.SET_NULL)
     fabricante = models.ForeignKey(Fabricante, null=True,
