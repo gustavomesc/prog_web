@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}
-Início
-{% endblock %}
+{% block title %}Inicio{% endblock %}
 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
@@ -12,74 +10,82 @@ Início
 {% block content %}
 <div id="content">
     <div class="container">
-        <!--<form method="POST" action="/produto/edit">
-            {% csrf_token %}-->
+        <div class="row">
+            <h5 for="Produto" class="col-md-2">Produto</h5>
+            <input value="{{produto.Produto}}" name="Produto" disabled>
+        </div>
 
-            <div class="row">
-                <!--<input type="hidden" value="{{produto.id}}" name="id">-->
-
-                <h5 for="Produto" class="col-md-2">
-                    Produto
-                </h5>
-
-                <input value="{{produto.Produto}}" name="Produto" disabled>
+        <div class="row">
+            <div class="col-md-2">
+                {% if produto.destaque %}
+                    <input type="checkbox" checked name="destaque" disabled>
+                {% else %}
+                    <input type="checkbox" name="destaque" disabled>
+                {% endif %}
+                <label for="destaque">Destaque</label>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-2">
-                    {% if produto.destaque %}
-                        <input type="checkbox" checked name="destaque" disabled>
+        <div class="row">
+            <div class="col-md-2">
+                {% if produto.promocao %}
+                    <input type="checkbox" checked name="promocao" disabled>
+                {% else %}
+                    <input type="checkbox" name="promocao" disabled>
+                {% endif %}
+                <label for="promocao">Promocao</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="msgPromocao" class="col-md-2">Msg Promocao</label>
+            <input value="{{produto.msgPromocao}}" name="msgPromocao" disabled>
+        </div>
+
+        <div class="row mt-2">
+            <label for="preco" class="col-md-2">Preco</label>
+            <input value="{{produto.preco}}" name="preco" disabled>
+        </div>
+
+        <div class="row mt-2">
+            <label for="CategoriaFk" class="col-md-2">Categorias</label>
+            <select name="CategoriaFk" disabled>
+                <option value="-1">-----</option>
+                {% for cate in categorias %}
+                    {% if produto.categoria_id == cate.id %}
+                        <option value="{{cate.id}}" selected>{{cate.Categoria}}</option>
                     {% else %}
-                        <input type="checkbox" name="destaque" disabled>
+                        <option value="{{cate.id}}">{{cate.Categoria}}</option>
                     {% endif %}
+                {% endfor %}
+            </select>
+        </div>
 
-                    <label for="destaque">
-                        Destaque
-                    </label>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-2">
-                    {% if produto.promocao %}
-                        <input type="checkbox" checked name="promocao" disabled>
+        <div class="row mt-2">
+            <label for="FabricanteFk" class="col-md-2">Fabricantes</label>
+            <select name="FabricanteFk" disabled>
+                <option value="-1">-----</option>
+                {% for fabri in fabricantes %}
+                    {% if produto.fabricante_id == fabri.id %}
+                        <option value="{{fabri.id}}" selected>{{fabri.Fabricante}}</option>
                     {% else %}
-                        <input type="checkbox" name="promocao" disabled>
+                        <option value="{{fabri.id}}">{{fabri.Fabricante}}</option>
                     {% endif %}
+                {% endfor %}
+            </select>
+        </div>
 
-                    <label for="promocao">
-                        Promoção
-                    </label>
-                </div>
-            </div>
+        {% if produto.image %}
+        <div class="row mt-3">
+            <img class="border border-secondary" width="200px" src="/media/{{produto.image}}">
+        </div>
+        {% endif %}
 
-            <div class="row">
-                <label for="msgPromocao" class="col-md-2">
-                    Msg Promoção
-                </label>
-
-                <input value="{{produto.msgPromocao}}" name="msgPromocao" disabled>
-            </div>
-
-            <div class="row mt-3">
-                <img class="border border-secondary"
-                     width="200px"
-                     src="/media/{{produto.image}}"/>
-            </div>
-
-            <div class="row">
-                <!--<button type="submit" class="btn btn-danger col-md-2 mt-3 mr-2">
-                    <i class="fa fa-check"></i>
-                    Salvar
-                </button>-->
-
-                <a href="{% url 'produto' %}" class="btn bg-secondary col-md-2 mt-3">
-                    <i class="fa fa-rotate-left"></i>
-                    Retornar
-                </a>
-            </div>
-
-        <!--</form>-->
+        <div class="row">
+            <a href="{% url 'produto' %}" class="btn bg-secondary col-md-2 mt-3">
+                <i class="fa fa-rotate-left"></i> Retornar
+            </a>
+        </div>
     </div>
 </div>
 {% endblock %}
