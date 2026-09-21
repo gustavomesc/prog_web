@@ -1,1 +1,48 @@
-{% extends 'base.html' %}{% block title %}Meu perfil{% endblock %}{% block content %}<div class="container py-4"><h2>Editar perfil</h2>{% if message %}<div class="alert alert-{{ message.type }}">{{ message.text }}</div>{% endif %}<form method="post">{% csrf_token %}{% for f in userForm %}<div class="form-group">{{ f.label_tag }}{{ f }}{% for e in f.errors %}<div class="text-danger">{{ e }}</div>{% endfor %}</div>{% endfor %}{% for f in usuarioForm %}{% if f.is_hidden %}{{ f }}{% else %}<div class="form-group">{{ f.label_tag }}{{ f }}{% for e in f.errors %}<div class="text-danger">{{ e }}</div>{% endfor %}</div>{% endif %}{% endfor %}<button class="btn btn-primary">Salvar</button></form></div>{% endblock %}
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Usuário{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">{% endblock %}
+{% block content %}
+<div id="content">
+    <div class="container-fluid">
+        <div class="row"> 
+            <form class="col-md-6 col-lg-4 offset-md-3 offset-lg-4" method="POST" action="">
+                {% if message is not None %}
+                <div class="alert alert-{{ message.type }}">{{ message.text }}</div>
+                {% endif %}
+                <div class="row">
+                    {% csrf_token %}
+                    {% for f in userForm %}
+                    {% if not f.is_hidden %}
+                    <div class="form-group col-md-6">
+                        {{ f.label }}
+                        {{ f }}
+                        {% for error in f.errors %}
+                        <div class="invalid-feedback" style="display: initial;">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ f }}
+                    {% endif %}
+                    {% endfor %}
+                    {% for f in usuarioForm %}
+                    {% if not f.is_hidden %}
+                    <div class="form-group col-md-6">
+                        {{ f.label }}
+                        {{ f }}
+                        {% for error in f.errors %}
+                        <div class="invalid-feedback" style="display: initial;">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ f }}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,1 +1,37 @@
-{% extends 'base.html' %}{% block title %}Categorias{% endblock %}{% block content %}<div class="container py-4"><h2>Categorias</h2><form method="post" class="mb-4">{% csrf_token %}{{ form.as_p }}{% if editando %}<input type="hidden" name="id" value="{{ editando }}">{% endif %}<button class="btn btn-primary">Salvar</button>{% if editando %}<a class="btn btn-secondary ml-2" href="{% url 'categoria' %}">Cancelar</a>{% endif %}</form>{% for item in categorias %}<div class="row mb-2"><div class="col">{{ item.Categoria }}</div><a class="btn btn-secondary mr-2" href="{% url 'edit_categoria' item.id %}">Editar</a><form method="post" action="{% url 'delete_categoria' item.id %}">{% csrf_token %}<button class="btn btn-danger">Apagar</button></form></div>{% empty %}<p>Nenhuma categoria cadastrada.</p>{% endfor %}</div>{% endblock %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Categorias{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div class="container">
+        <div class="alert alert-info">
+            <a href="{% url 'create_categoria' %}" class="btn btn-primary mr-2">
+                <i class="fa fa-plus"></i> Nova Categoria
+            </a>
+            Categorias encontradas [{{ categorias | length }}]
+        </div>
+        
+        {% for cat in categorias %}
+        <div class="row">
+            <h5 class="col-md-6">{{ cat.Categoria }}</h5>
+            <a href="{% url 'edit_categoria' cat.id %}" class="btn btn-secondary mb-2 mr-2">
+                <i class="fa fa-edit"></i> Editar
+            </a>
+            <a href="{% url 'delete_categoria' cat.id %}" class="btn btn-warning mb-2">
+                <i class="fa fa-trash"></i> Apagar
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/home.js' %}"></script>
+{% endblock %}

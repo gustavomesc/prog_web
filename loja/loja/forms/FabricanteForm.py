@@ -1,8 +1,11 @@
+from django.forms import ModelForm
 from django import forms
-from loja.models import Fabricante
+from loja.models.Fabricante import Fabricante
 
-class FabricanteForm(forms.ModelForm):
+class FabricanteForm(ModelForm):
     class Meta:
         model = Fabricante
-        fields = '__all__'
-        widgets = {'Fabricante': forms.TextInput(attrs={'class': 'form-control'})}
+        fields = ['Fabricante']
+        widgets = {
+            'Fabricante': forms.TextInput(attrs={'class': "form-control"}),
+        }

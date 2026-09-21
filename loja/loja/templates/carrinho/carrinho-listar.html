@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Carrinho{% endblock %}
+{% block content %}
+<h3>Carrinho de Compras</h3>
+{% if itens %}
+<div class="table-responsive">
+    <table class="table">
+        <thead><tr><th>Produto</th><th>Quantidade</th><th>Preço</th><th>Total</th><th>Ações</th></tr></thead>
+        <tbody>
+        {% for item in itens %}
+        <tr>
+            <td>{{ item.produto.Produto|default:"Produto indisponível" }}</td>
+            <td>
+                <form method="post" action="{% url 'alterar_quantidade' item.id 'diminuir' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary btn-sm" aria-label="Diminuir quantidade de {{ item.produto }}" {% if item.quantidade == 1 %}disabled{% endif %}>−</button>
+                </form>
+                <span class="mx-2">{{ item.quantidade }}</span>
+                <form method="post" action="{% url 'alterar_quantidade' item.id 'adicionar' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary btn-sm" aria-label="Adicionar quantidade de {{ item.produto }}">+</button>
+                </form>
+            </td>
+            <td>R$ {{ item.preco|floatformat:2 }}</td>
+            <td>R$ {{ item.total|floatformat:2 }}</td>
+            <td><form method="post" action="{% url 'remover_carrinhoitem' item.id %}">
+                {% csrf_token %}<button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+            </form></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<h5 class="mt-4">Total: R$ {{ carrinho.total|floatformat:2 }}</h5>
+<form method="post" action="{% url 'confirmar_carrinho' %}" class="mt-4">
+    {% csrf_token %}
+    <a href="{% url 'home' %}" class="btn btn-secondary">Voltar à loja</a>
+    <button type="submit" class="btn btn-success">Finalizar Compra</button>
+</form>
+{% else %}
+<div class="alert alert-warning mt-4">Seu carrinho está vazio.</div>
+<a href="{% url 'home' %}" class="btn btn-primary">Ir à loja</a>
+{% endif %}
+{% endblock %}

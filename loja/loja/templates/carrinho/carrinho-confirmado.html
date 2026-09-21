@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Compra confirmada{% endblock %}
+{% block content %}
+<div class="alert alert-info">
+    <h3>Compra Confirmada</h3>
+    <p>Usuário: {{ carrinho.user }}</p>
+    <p>Pedido Número: {{ carrinho.id }}</p>
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead><tr><th>Produto</th><th>Quantidade</th><th>Preço</th><th>Total</th></tr></thead>
+        <tbody>{% for item in itens %}
+            <tr><td>{{ item.produto.Produto|default:"Produto indisponível" }}</td><td>{{ item.quantidade }}</td><td>R$ {{ item.preco|floatformat:2 }}</td><td>R$ {{ item.total|floatformat:2 }}</td></tr>
+        {% endfor %}</tbody>
+    </table>
+</div>
+<h5>Total: R$ {{ carrinho.total|floatformat:2 }}</h5>
+<a href="{% url 'home' %}" class="btn btn-secondary mt-3">Voltar à loja</a>
+{% endblock %}

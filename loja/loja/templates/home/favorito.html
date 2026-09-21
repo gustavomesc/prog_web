@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Favoritar produto{% endblock %}
+{% block content %}
+<h3>Favoritar {{ produto.Produto }}</h3>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" name="acao" value="adicionar" class="btn btn-warning">Confirmar favorito</button>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Voltar à loja</a>
+</form>
+{% endblock %}
